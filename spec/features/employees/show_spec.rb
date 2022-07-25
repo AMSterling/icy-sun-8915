@@ -40,7 +40,7 @@ RSpec.describe 'the employee show page' do
     expect(page).to_not have_content('Department: IT')
   end
 
-  it 'shows the employees name and their department' do
+  it 'also shows the employees tickets oldest to newest' do
     dept1 = Department.create!(name: 'IT', floor: 'Basement')
     dept2 = Department.create!(name: 'Sales', floor: 'First')
     dept3 = Department.create!(name: 'Marketing', floor: 'Second')
@@ -49,33 +49,48 @@ RSpec.describe 'the employee show page' do
     emp2 = Employee.create!(name: 'Mike Dao', level: 4, department_id: dept1.id)
     emp3 = Employee.create!(name: 'Chris Simmons', level: 2, department_id: dept3.id)
 
+    ticket1 = Ticket.create!(subject: 'printers broken', age: 5)
+    ticket2 = Ticket.create!(subject: 'pos is a pos', age: 6)
+    ticket3 = Ticket.create!(subject: 'software failure', age: 4)
+    ticket4 = Ticket.create!(subject: 'warranty', age: 2)
+    ticket5 = Ticket.create!(subject: 'client issue', age: 3)
+
+    EmployeeTicket.create!(employee_id: emp1.id, ticket_id: ticket2.id)
+    EmployeeTicket.create!(employee_id: emp1.id, ticket_id: ticket4.id)
+    EmployeeTicket.create!(employee_id: emp2.id, ticket_id: ticket1.id)
+    EmployeeTicket.create!(employee_id: emp2.id, ticket_id: ticket2.id)
+    EmployeeTicket.create!(employee_id: emp2.id, ticket_id: ticket3.id)
+    EmployeeTicket.create!(employee_id: emp3.id, ticket_id: ticket4.id)
+    EmployeeTicket.create!(employee_id: emp3.id, ticket_id: ticket5.id)
+
     visit "/employees/#{emp1.id}"
 
     expect(page).to have_content('Name: Dani Coleman')
-    # expect(page).to have_content('Level: 3')
     expect(page).to have_content('Department: Sales')
-    expect(page).to_not have_content('Name: Mike Dao')
-    expect(page).to_not have_content('Department: IT')
-    expect(page).to_not have_content('Name: Chris Simmons')
-    expect(page).to_not have_content('Department: Marketing')
+    expect(page).to have_content('Ticket: pos is a pos')
+    expect(page).to have_content('Ticket: warranty')
+    expect(page).to_not have_content('Ticket: printers broken')
+    expect(page).to_not have_content('Ticket: client issue')
+    expect(page).to_not have_content('Ticket: software failure')
 
     visit "/employees/#{emp2.id}"
 
     expect(page).to have_content('Name: Mike Dao')
-    # expect(page).to have_content('Level: 4')
     expect(page).to have_content('Department: IT')
-    expect(page).to_not have_content('Name: Dani Coleman')
-    expect(page).to_not have_content('Department: Sales')
-    expect(page).to_not have_content('Name: Chris Simmons')
-    expect(page).to_not have_content('Department: Marketing')
+    expect(page).to have_content('Ticket: printers broken')
+    expect(page).to have_content('Ticket: pos is a pos')
+    expect(page).to have_content('Ticket: software failure')
+    expect(page).to_not have_content('Ticket: client issue')
+    expect(page).to_not have_content('Ticket: warranty')
 
     visit "/employees/#{emp3.id}"
 
     expect(page).to have_content('Name: Chris Simmons')
     expect(page).to have_content('Department: Marketing')
-    expect(page).to_not have_content('Name: Dani Coleman')
-    expect(page).to_not have_content('Department: Sales')
-    expect(page).to_not have_content('Name: Mike Dao')
-    expect(page).to_not have_content('Department: IT')
+    expect(page).to have_content('Ticket: warranty')
+    expect(page).to have_content('Ticket: client issue')
+    expect(page).to_not have_content('Ticket: printers broken')
+    expect(page).to_not have_content('Ticket: software failure')
+    expect(page).to_not have_content('Ticket: pos is a pos')
   end
 end

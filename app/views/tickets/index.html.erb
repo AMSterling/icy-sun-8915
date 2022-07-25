@@ -1,0 +1,9 @@
+<h1>Ticket Index</h1>
+
+<% @tickets.each_with_index do |ticket, index| %>
+<div id="ticket-<%= index %>"
+  <h3><b>Subject: <%= ticket.subject %></b></h3>
+  <p>Age: <%= ticket.age %></p>
+  <br/>
+</div>
+<% end %>

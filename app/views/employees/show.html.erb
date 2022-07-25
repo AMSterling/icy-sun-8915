@@ -1,2 +1,8 @@
 <p><b>Name: <%= @employee.name %></b></p>
 <p>Department: <%= @employee.department.name %></p>
+<% @employee.tickets.oldest_to_newest.each_with_index do |ticket, index| %>
+<div id="ticket-<%= index %>"
+  <p>Ticket: <%= ticket.subject %></p>
+  <br/>
+</div>
+<% end %>
