@@ -67,8 +67,15 @@ RSpec.describe 'the employee show page' do
 
     expect(page).to have_content('Name: Dani Coleman')
     expect(page).to have_content('Department: Sales')
-    expect(page).to have_content('Ticket: pos is a pos')
-    expect(page).to have_content('Ticket: warranty')
+
+    within '#ticket-0' do
+      expect(page).to have_content('Ticket: pos is a pos')
+    end
+
+    within '#ticket-1' do
+      expect(page).to have_content('Ticket: warranty')
+    end
+
     expect(page).to_not have_content('Ticket: printers broken')
     expect(page).to_not have_content('Ticket: client issue')
     expect(page).to_not have_content('Ticket: software failure')
@@ -77,9 +84,19 @@ RSpec.describe 'the employee show page' do
 
     expect(page).to have_content('Name: Mike Dao')
     expect(page).to have_content('Department: IT')
-    expect(page).to have_content('Ticket: printers broken')
-    expect(page).to have_content('Ticket: pos is a pos')
-    expect(page).to have_content('Ticket: software failure')
+
+    within '#ticket-0' do
+      expect(page).to have_content('Ticket: pos is a pos')
+    end
+
+    within '#ticket-1' do
+      expect(page).to have_content('Ticket: printers broken')
+    end
+
+    within '#ticket-2' do
+      expect(page).to have_content('Ticket: software failure')
+    end
+
     expect(page).to_not have_content('Ticket: client issue')
     expect(page).to_not have_content('Ticket: warranty')
 
@@ -87,8 +104,15 @@ RSpec.describe 'the employee show page' do
 
     expect(page).to have_content('Name: Chris Simmons')
     expect(page).to have_content('Department: Marketing')
-    expect(page).to have_content('Ticket: warranty')
-    expect(page).to have_content('Ticket: client issue')
+
+    within '#ticket-0' do
+      expect(page).to have_content('Ticket: client issue')
+    end
+
+    within '#ticket-1' do
+      expect(page).to have_content('Ticket: warranty')
+    end
+
     expect(page).to_not have_content('Ticket: printers broken')
     expect(page).to_not have_content('Ticket: software failure')
     expect(page).to_not have_content('Ticket: pos is a pos')
