@@ -5,4 +5,16 @@
   <p>Ticket: <%= ticket.subject %></p>
 </div>
 <% end %>
-<p><b>Oldest Ticket: <%= @employee.oldest_ticket %></b></p>
+<p>Oldest Ticket: <%= @employee.oldest_ticket %></p>
+
+<%= form_with url: "/employees/#{@employee.id}?search=#{params[:search]}", method: :get, local: true, skip_enforcing_utf8: true do |form| %>
+  <%= form.label :search, 'Find Ticket' %>
+  <%= form.text_field :search %>
+  <%= form.submit 'Search', name: nil %>
+<% end %>
+<% if params[:search].present? %>
+  <% @tickets.each do |ticket| %>
+  <h3><%= ticket.subject %></h3>
+   <%= button_to "Add #{ticket.subject}", "/employees/#{@employee.id}", method: :post, params: {ticket_id: ticket.id} %>
+<% end %>
+<% end %>
