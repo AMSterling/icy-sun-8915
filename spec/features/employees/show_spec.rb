@@ -64,7 +64,7 @@ RSpec.describe 'the employee show page' do
     EmployeeTicket.create!(employee_id: emp3.id, ticket_id: ticket5.id)
 
     visit "/employees/#{emp1.id}"
-
+save_and_open_page
     expect(page).to have_content('Name: Dani Coleman')
     expect(page).to have_content('Department: Sales')
 
@@ -76,6 +76,7 @@ RSpec.describe 'the employee show page' do
       expect(page).to have_content('Ticket: warranty')
     end
 
+    expect(page).to have_content('Oldest Ticket: [pos is a pos]')
     expect(page).to_not have_content('Ticket: printers broken')
     expect(page).to_not have_content('Ticket: client issue')
     expect(page).to_not have_content('Ticket: software failure')
@@ -97,6 +98,7 @@ RSpec.describe 'the employee show page' do
       expect(page).to have_content('Ticket: software failure')
     end
 
+    expect(page).to have_content('Oldest Ticket: [pos is a pos]')
     expect(page).to_not have_content('Ticket: client issue')
     expect(page).to_not have_content('Ticket: warranty')
 
@@ -113,6 +115,7 @@ RSpec.describe 'the employee show page' do
       expect(page).to have_content('Ticket: warranty')
     end
 
+    expect(page).to have_content('Oldest Ticket: [client issue]')
     expect(page).to_not have_content('Ticket: printers broken')
     expect(page).to_not have_content('Ticket: software failure')
     expect(page).to_not have_content('Ticket: pos is a pos')
